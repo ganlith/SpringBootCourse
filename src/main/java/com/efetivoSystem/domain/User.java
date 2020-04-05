@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter @Setter
@@ -53,4 +54,5 @@ public class User implements Serializable {
     
     @OneToMany(mappedBy = "owner")
     private List<RequestStage> stages = new ArrayList<RequestStage>();
+
 }
