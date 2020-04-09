@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.efetivoSystem.domain.Request;
+import com.efetivoSystem.domain.RequestStage;
 import com.efetivoSystem.service.RequestService;
+import com.efetivoSystem.service.RequestStageService;
 
 @RestController
 @RequestMapping(value = "requests")
 public class RequestResource {
 	@Autowired private RequestService requestService;
+	@Autowired private RequestStageService stagetService;
 	
 	@PostMapping
 	public ResponseEntity<Request> save(@RequestBody Request request){
@@ -46,6 +49,12 @@ public class RequestResource {
 	public ResponseEntity<List<Request>> listAll(){
 		List<Request> requests = requestService.listAll();
 		return ResponseEntity.ok(requests);
+	}
+	
+	@GetMapping("/{id}/request-stage")
+	public ResponseEntity<List<RequestStage>> listAllStageById(@PathVariable(name = "id") Long id){
+		List<RequestStage> stages = stagetService.listAllByRequestId(id);
+		return ResponseEntity.ok(stages);
 	}
 
 }
