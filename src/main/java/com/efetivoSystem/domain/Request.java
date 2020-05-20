@@ -53,8 +53,7 @@ public class Request implements Serializable {
 	@Column(length = 12, nullable = false)
     @Enumerated(EnumType.STRING)
 	private RequestState state;
-
-	@Getter(onMethod = @__({@JsonIgnore}))
+	
 	@ManyToOne
 	@JoinColumn(name = "owner_id", nullable = false)
 	private User owner;

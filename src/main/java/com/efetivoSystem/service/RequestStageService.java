@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.efetivoSystem.domain.RequestStage;
 import com.efetivoSystem.domain.enums.RequestState;
+import com.efetivoSystem.exception.NotFoundException;
 import com.efetivoSystem.repository.RequestRepository;
 import com.efetivoSystem.repository.RequestStageRepository;
 
@@ -36,7 +37,8 @@ public class RequestStageService {
 	
 	public RequestStage getById(Long id) {
 		Optional<RequestStage> result = requestStageRepository.findById(id);
-		return result.get();			
+		
+		return result.orElseThrow(() -> new NotFoundException("RequestStage for id " + id + " Not found"));			
 	}
 	
 	public List<RequestStage> listAllByRequestId(Long requestId){

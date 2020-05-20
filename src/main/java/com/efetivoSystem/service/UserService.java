@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.efetivoSystem.domain.User;
+import com.efetivoSystem.exception.NotFoundException;
 import com.efetivoSystem.repository.UserRepository;
 import com.efetivoSystem.service.utils.HashUtil;
 
@@ -32,7 +33,8 @@ public class UserService {
 	
 	public User getById(Long id) {
 		Optional<User> result = userRepository.findById(id);
-		return result.get();
+		
+		return result.orElseThrow(() -> new NotFoundException("User for id " + id + " Not found"));
 	}
 	
 	public List<User> listAll() {
