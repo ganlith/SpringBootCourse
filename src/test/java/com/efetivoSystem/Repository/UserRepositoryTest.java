@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
@@ -24,7 +25,7 @@ import com.efetivoSystem.repository.UserRepository;
 public class UserRepositoryTest {
 	@Autowired private UserRepository userRepository;
 	
-	@Test
+	@Ignore
 	public void AsaveTest() {
 		User user = new User(null, "Marcelo","marcelo.schoeffel@gmail.com", "1234", Role.ADMINISTRATOR, null, null);
 		User createUser = userRepository.save(user);
@@ -33,7 +34,7 @@ public class UserRepositoryTest {
 		
 	}
 	
-	@Test
+	@Ignore
 	public void updateTest() {
 		User user = new User(1L, "Marcelo Schoeffel","marcelo.schoeffel@hotmail.com", "1234", Role.ADMINISTRATOR, null, null);
 		User updateUser = userRepository.save(user);
@@ -41,7 +42,7 @@ public class UserRepositoryTest {
 		assertThat(updateUser.getName()).isEqualTo("Marcelo Schoeffel");
 	}
 	
-	@Test
+	@Ignore
 	public void getByIdTest() {
 		Optional<User> result = userRepository.findById(1L);
 		User user = result.get();
@@ -49,19 +50,27 @@ public class UserRepositoryTest {
 		assertThat(user.getPassword()).isEqualTo("1234");
 	}
 	
-	@Test
+	@Ignore
 	public void listTest() {
 		List<User> users = userRepository.findAll();
 		
 		assertThat(users.size()).isEqualTo(1);
 	}
 	
-	@Test
+	@Ignore
 	public void loginTest() {
 		Optional<User> result = userRepository.login("marcelo.schoeffel@gmail.com", "1234");
 		User loggedUser = result.get();
 		
 		assertThat(loggedUser.getId()).isEqualTo(1L);				
+		
+	}
+	
+	@Test
+	public void updateRoleTest() {
+		
+		int affectRows = userRepository.updateRole(4L, Role.ADMINISTRATOR);
+		assertThat(affectRows).isEqualTo(1);
 		
 	}
 
