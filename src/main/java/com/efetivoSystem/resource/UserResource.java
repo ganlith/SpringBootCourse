@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.efetivoSystem.domain.Request;
 import com.efetivoSystem.domain.User;
 import com.efetivoSystem.dto.UserLoginDto;
+import com.efetivoSystem.dto.UserUpdateRoledto;
 import com.efetivoSystem.model.PageModel;
 import com.efetivoSystem.model.PageRequestModel;
 import com.efetivoSystem.service.RequestService;
@@ -75,6 +77,19 @@ public class UserResource {
 		PageModel<Request> pm = requestService.listAllByOwnerIdLazyModel(id, pr);
 		
 		return ResponseEntity.ok(pm);
+		
+	}
+	
+	@PatchMapping("/role/{id}")
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @RequestBody UserUpdateRoledto userdto){
+		User user = new User();
+		user.setId(id);
+		user.setRole(userdto.getRole());
+		
+		userService.updateRole(user);
+		
+		return ResponseEntity.ok().build();
+		
 		
 	}
 
