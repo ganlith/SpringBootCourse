@@ -46,10 +46,10 @@ public class User implements Serializable {
     
     @Getter(onMethod = @__({@JsonIgnore}))
     @Setter(onMethod = @__({@JsonProperty}))
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false) 
 	private String password;
     
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
 	private Role role;
     

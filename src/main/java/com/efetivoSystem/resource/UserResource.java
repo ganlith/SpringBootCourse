@@ -1,5 +1,7 @@
 package com.efetivoSystem.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.efetivoSystem.domain.Request;
 import com.efetivoSystem.domain.User;
 import com.efetivoSystem.dto.UserLoginDto;
+import com.efetivoSystem.dto.UserSavedto;
 import com.efetivoSystem.dto.UserUpdateRoledto;
+import com.efetivoSystem.dto.UserUpdatedto;
 import com.efetivoSystem.model.PageModel;
 import com.efetivoSystem.model.PageRequestModel;
 import com.efetivoSystem.service.RequestService;
@@ -29,13 +33,15 @@ public class UserResource {
 	@Autowired private RequestService requestService;
 	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User user) {
-		User createUser = userService.save(user);
+	public ResponseEntity<User> save(@RequestBody @Valid UserSavedto userdto) {
+		User userToSave = userdto.transformToUser();
+		User createUser = userService.save(userToSave);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createUser);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody User user){
+	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdatedto userdto){
+		User user = userdto.transformToUser();
 		user.setId(id);
 		User updateUser = userService.update(user);
 		return ResponseEntity.ok(updateUser);
@@ -61,7 +67,7 @@ public class UserResource {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody UserLoginDto user){
+	public ResponseEntity<User> login(@RequestBody @Valid UserLoginDto user){
 		User loggedUser = userService.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(loggedUser);
 	}
@@ -81,7 +87,7 @@ public class UserResource {
 	}
 	
 	@PatchMapping("/role/{id}")
-	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @RequestBody UserUpdateRoledto userdto){
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @RequestBody @Valid UserUpdateRoledto userdto){
 		User user = new User();
 		user.setId(id);
 		user.setRole(userdto.getRole());
