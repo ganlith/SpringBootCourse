@@ -2,7 +2,8 @@ package com.efetivoSystem.repository;
 
 import java.util.List;
 
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,8 @@ import com.efetivoSystem.domain.enums.RequestState;
 public interface RequestRepository extends JpaRepository<Request, Long> {
 	
 	public List<Request> findAllByOwnerId(Long Id);
+	
+	public Page<Request> findAllByOwnerId(Long Id, Pageable pageable);
 	
 	@Transactional(readOnly = false)
 	@Modifying
