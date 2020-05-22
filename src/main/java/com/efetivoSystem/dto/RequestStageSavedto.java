@@ -1,6 +1,6 @@
 package com.efetivoSystem.dto;
 
-import javax.validation.constraints.NotBlank;
+
 import javax.validation.constraints.NotNull;
 
 import com.efetivoSystem.domain.Request;
