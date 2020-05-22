@@ -2,6 +2,8 @@ package com.efetivoSystem.resource;
 
 
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.efetivoSystem.domain.Request;
 import com.efetivoSystem.domain.RequestStage;
+import com.efetivoSystem.dto.RequestSavedto;
+import com.efetivoSystem.dto.RequestUpdatedto;
 import com.efetivoSystem.model.PageModel;
 import com.efetivoSystem.model.PageRequestModel;
 import com.efetivoSystem.service.RequestService;
@@ -28,17 +32,20 @@ public class RequestResource {
 	@Autowired private RequestStageService stagetService;
 	
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request){
+	public ResponseEntity<Request> save(@RequestBody @Valid RequestSavedto requestdto){
+		
+		Request request = requestdto.transformToRequest();
+		
 		Request createdRequest = requestService.save(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request){
-		request.setId(id);
+	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdatedto requestdto){
 		
-		Request updateRequest = requestService.update(request);
-		
+		Request request = requestdto.transformToRequest();		
+		request.setId(id);		
+		Request updateRequest = requestService.update(request);		
 		return ResponseEntity.ok(updateRequest);
 	}
 	
